@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Income</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+<header th:replace="include/header.html"></header>
+
+<form action="/income" class="m-3" method="post" th:object="${incomeMoneyDTO}">
+    <h4 th:if="${errorMessage!=null}" th:text="${errorMessage}" class="text-danger"></h4>
+
+    <label for="cardToAdd" class="form-label">Which card you choose</label>
+    <select id="cardToAdd" class="form-select mb-3" name="card" th:field="*{cardNumber}" required>
+        <option th:each="card : ${userCards}"
+                th:text="${card.cardNumber}+' T:'+${card.kzt}+' R:'+${card.rub}+' $:'+${card.usd}"
+                th:value="${card.cardNumber}"></option>
+    </select>
+
+    <label for="currencyType" class="form-label">Type</label>
+    <select id="currencyType" class="form-select mb-3" name="currencyType" th:field="*{currencyType}" required>
+        <option selected value="KZT">Tenge (KZT)</option>
+        <option value="USD">Dollar (USD)</option>
+        <option value="RUB">Ruble (RUB)</option>
+    </select>
+
+    <label for="moneyAmountId">Money to transfer</label>
+    <div class="form-floating mb-3">
+        <input type="number" step="0.001" class="form-control" id="moneyAmountId"
+               placeholder="Money amount" name="moneyAmount" th:field="*{amount}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">ADD</button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+</body>
+</html>

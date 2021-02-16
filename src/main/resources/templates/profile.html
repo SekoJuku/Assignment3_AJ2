@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+<header th:replace="include/header"></header>
+<main role="main" class="m-2">
+    <h3 th:text="${session.user.username}"></h3>
+    <div class="flex">
+        <form action="" th:action="@{/create-card}" method="post">
+            <button type="submit" class="btn btn-primary">Create new card</button>
+        </form>
+        <a class="nav-link" aria-current="page" href="/change-password">
+            <button type="submit" class="btn btn-primary">
+                Change password
+            </button>
+        </a>
+    </div>
+    <div th:if="${cards==null}">
+        <h6>You don't have any card.</h6>
+    </div>
+    <table class="table" th:if="${cards!=null}">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Card number</th>
+            <th scope="col">Expire date</th>
+            <th scope="col">CVV</th>
+            <th scope="col">KZT</th>
+            <th scope="col">RUB</th>
+            <th scope="col">USD</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="card, iter : ${cards}">
+            <th scope="row" th:text="${iter.count}">1</th>
+            <td th:text="${card.cardNumber}"></td>
+            <td th:text="${card.expireDate}"></td>
+            <td th:text="${card.cvv}"></td>
+            <td th:text="${card.kzt}"></td>
+            <td th:text="${card.rub}"></td>
+            <td th:text="${card.usd}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+</body>
+</html>
