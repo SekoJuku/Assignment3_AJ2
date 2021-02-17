@@ -154,7 +154,7 @@ public class CardService implements ICardService {
         Card fromCard = findByCardNumber(moneyTransferDTO.getFromCardNumber());
 
         if (!fromCard.getUserId().equals(fromCard.getId())) {
-            throw new TransferException(fromCard.getCardNumber() + "Try again.");
+            throw new TransferException(fromCard.getCardNumber() + ". Try again!");
         }
         if (moneyTransferDTO.getTargetCardNumber().startsWith("5522")) {
             if (!cardRepository.existsCardByCardNumber(moneyTransferDTO.getTargetCardNumber())) {
@@ -172,15 +172,15 @@ public class CardService implements ICardService {
             //give to another card
             switch (moneyTransferDTO.getCurrencyType()) {
                 case KZT:
-                    targetCard.setKzt(moneyTransferDTO.getMoneyAmount());
+                    targetCard.setKzt(moneyTransferDTO.getMoneyAmount()+targetCard.getKzt());
                     break;
 
                 case USD:
-                    targetCard.setUsd(moneyTransferDTO.getMoneyAmount());
+                    targetCard.setUsd(moneyTransferDTO.getMoneyAmount()+targetCard.getUsd());
                     break;
 
                 default://RUB
-                    targetCard.setRub(moneyTransferDTO.getMoneyAmount());
+                    targetCard.setRub(moneyTransferDTO.getMoneyAmount()+targetCard.getRub());
                     break;
             }
             cardRepository.save(targetCard);
